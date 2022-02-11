@@ -15,10 +15,10 @@ const initControllers = (mainWindow) => {
     }
   });
   
-  ipcMain.handle('add-user', async function () {
+  ipcMain.handle('add-user', async function (_, params) {
     try {
       const db = mongoose.connection.db;
-      const result = await db.collection('users').insertOne({ name: 'Mario Cárdenas' });
+      const result = await db.collection('users').insertOne(params);
       result.insertedId = result.insertedId.toString();
 
       mainWindow.webContents.send('add-user-success', result);

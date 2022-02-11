@@ -52,7 +52,7 @@ class ReduxMiddleware {
       if (!this.hasElectronCallbacks) this.setElectronCallbacks(dispatch);
 
       const functionString = toCalmelcase(endpoint);
-      console.log('params ====>', data ? data : null)
+
       window.electronAPI[functionString](data ? data : null);
     }
   

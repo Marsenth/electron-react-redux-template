@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 const { app, screen, BrowserWindow } = require('electron')
 const path = require('path')
