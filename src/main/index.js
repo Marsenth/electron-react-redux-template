@@ -1,11 +1,12 @@
 require('dotenv').config()
 
-const { default: installExtension, REDUX_DEVTOOLS } = require('electron-devtools-installer');
+const isDev = require('electron-is-dev')
+const { default: installExtension, REDUX_DEVTOOLS } = isDev ? require('electron-devtools-installer') : {};
 const { app, screen, BrowserWindow } = require('electron')
 const path = require('path')
-const isDev = require('electron-is-dev')
-const initMongoose = require('./server/mongoose/init')
-const initControllers = require('./server/controllers')
+const initMongoose = require('./mongoose/init')
+const initControllers = require('./controllers')
+const writeLogs = require('./helpers/logs');
 
 require('@electron/remote/main').initialize()
 
@@ -14,12 +15,15 @@ async function createWindow() {
     await initMongoose()
   } catch (err) {
     console.log(err)
+    writeLogs(err);
   }
 
   // Create a window that fills the screen's available work area.
-  installExtension(REDUX_DEVTOOLS)
+  if (isDev) {
+    installExtension(REDUX_DEVTOOLS)
     .then((name) => console.log(`Added Extension:  ${name}`))
     .catch((err) => console.log('An error occurred: ', err));
+  }
 
   const primaryDisplay = screen.getPrimaryDisplay()
   const { width, height } = primaryDisplay.workAreaSize
@@ -31,7 +35,7 @@ async function createWindow() {
       nodeIntegration: true,
       enableRemoteModule: true,
       contextIsolation: true,
-      preload: path.join(__dirname, 'server/preload/index.js')
+      preload: path.join(__dirname, 'preload/index.js')
     }
   })
 
@@ -40,7 +44,7 @@ async function createWindow() {
   win.loadURL(
     isDev
       ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+      : `file://${path.join(__dirname, '../../build/index.html')}`
   )
 }
 

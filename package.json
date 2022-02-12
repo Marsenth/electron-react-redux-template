@@ -1,5 +1,5 @@
 {
-  "name": "electron-react",
+  "name": "electron-react-template",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -18,28 +18,32 @@
     "sass": "^1.45.2",
     "web-vitals": "^0.2.4"
   },
-  "main": "src/main.js",
+  "main": "src/main/index.js",
   "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "electron:serve": "concurrently -k \"cross-env BROWSER=none npm start\" \"npm run electron:start\"",
-    "electron:build": "yarn build && electron-builder -c.extraMetadata.main=build/main.js",
-    "electron:start": "wait-on tcp:3000 && electron ."
+    "start": "concurrently -k \"cross-env BROWSER=none npm run react:start\" \"npm run serve\"",
+    "build": "npm run react:build && npm run react:files && electron-builder",
+    "serve": "wait-on tcp:3000 && electron .",
+    "react:files": "cp -r src/main build/main",
+    "react:start": "react-scripts start",
+    "react:build": "react-scripts build",
+    "react:test": "react-scripts test",
+    "react:eject": "react-scripts eject"
   },
   "build": {
+    "appId": "com.electron-react-template.electron-cra",
     "extends": null,
-    "appId": "com.example.electron-cra",
     "files": [
-      "dist/**/*",
-      "build/**/*",
-      "node_modules/**/*",
-      "package.json"
+      "./dist/**/*",
+      "./build/**/*",
+      "./node_modules/**/*",
+      "./package.json"
     ],
     "directories": {
       "buildResources": "assets"
+    },
+    "extraMetadata": {
+      "main": "build/main/index.js"
     }
   },
   "eslintConfig": {
@@ -64,7 +68,7 @@
     "concurrently": "^5.3.0",
     "cross-env": "^7.0.3",
     "electron": "^11.2.1",
-    "electron-builder": "^22.9.1",
+    "electron-builder": "^22.14.13",
     "electron-devtools-installer": "^3.2.0",
     "prettier": "^2.2.1",
     "redux-devtools-extension": "^2.13.9",

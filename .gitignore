@@ -1,5 +1,10 @@
+build
+certs
+dist
+logs
 node_modules
 package-lock.json
-certs
+src/main/config.json
 .env
 .eslintcache
+.DS_Store
