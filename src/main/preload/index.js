@@ -1,6 +1,8 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  writeLogs: (params) => ipcRenderer.invoke('write-logs', params),
+
   getUsers: (params) => ipcRenderer.invoke('get-users', params),
   getUsersSuccess: (callback) => ipcRenderer.on('get-users-success', callback),
   getUsersError: (callback) => ipcRenderer.on('get-users-error', callback),

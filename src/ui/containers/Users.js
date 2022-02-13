@@ -19,6 +19,8 @@ const Users = () => {
     dispatch(getUsers());
   }, [ADD_USER.data, REMOVE_USER.data])
 
+  if (GET_USERS.data.length) window.electronAPI.writeLogs({ logsContent: JSON.stringify(GET_USERS.data), type: 'success' });
+
   return (
     <div className='users'>
     <UserForm/>

@@ -1,7 +1,8 @@
 const child_process = require('child_process');
 const fs = require('fs');
 
-const wirteLogs = async (logsContent, type = 'ERROR') => {
+const wirteLogs = async (logsContent, type = 'ERROR', filename = 'main') => {
+
   const logsLabel = `[${type.toLocaleUpperCase()}]`;
 
   try {
@@ -11,9 +12,9 @@ const wirteLogs = async (logsContent, type = 'ERROR') => {
 
     if (!thereIsLogs) child_process.execSync('mkdir logs')
 
-    fs.writeFileSync('logs/main.txt', `${logsLabel}: ${logsContent}`);
+    fs.appendFileSync(`logs/${filename}.txt`, `${logsLabel}: ${logsContent}\n`);
   } catch (error) {
-    fs.writeFileSync('logs/main.txt', `${logsLabel}: ${error}`);
+    fs.appendFileSync(`logs/${filename}.txt`, `${logsLabel}: ${error}\n`);
   }
 };
 
