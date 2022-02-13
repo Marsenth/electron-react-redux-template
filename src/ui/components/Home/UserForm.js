@@ -1,11 +1,13 @@
 import { Form, Button, Input, Row, Col } from 'antd';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUser } from '../../redux/actions/users';
+import actions from '../../redux/actions';
+
+const { addUser } = actions;
 
 const UserForm = () => {
   const [form] = Form.useForm();
-  const { ADD_USER } = useSelector((state) => state.users)
+  const { addUser: { data: addedUser, addingUser, error: errorAddingUser }, } = useSelector((state) => state.users)
   
   const dispatch = useDispatch();
 
@@ -18,11 +20,11 @@ const UserForm = () => {
 
   useEffect(() => {
     form.resetFields();
-  }, [ADD_USER.data]);
+  }, [addedUser]);
 
   useEffect(() => {
-    if (ADD_USER.error) alert('Ha ocurrido un error inesperado.');
-  }, [ADD_USER.error]);
+    if (errorAddingUser) alert('Ha ocurrido un error inesperado.');
+  }, [errorAddingUser]);
 
   return (
     <Form
@@ -39,13 +41,13 @@ const UserForm = () => {
             name="name"
             rules={[{ required: true, message: 'Es requerido un nombre de usuario para relizar esta acción' }]}
           >
-            <Input placeholder="Escriba aquí el nombre de usuario" disabled={ADD_USER.loading}/>
+            <Input placeholder="Escriba aquí el nombre de usuario" disabled={addingUser}/>
           </Form.Item>
         </Col>
       </Row>
       
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={ADD_USER.loading}>Agregar</Button>
+        <Button type="primary" htmlType="submit" loading={addingUser}>Agregar</Button>
       </Form.Item>
     </Form>
   );

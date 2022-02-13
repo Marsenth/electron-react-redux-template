@@ -1,13 +1,19 @@
 import { Button, List } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUsers, removeUser } from '../redux/actions/users';
+import actions from '../redux/actions';
 import { CloseOutlined } from '@ant-design/icons';
 import UserForm from '../components/Home/UserForm';
 import '../assets/styles/components/Users/users.sass';
 
+const { getUsers, removeUser } = actions;
+
 const Users = () => {
-  const { GET_USERS, ADD_USER, REMOVE_USER } = useSelector((state) => state.users)
+  const {
+    getUsers: { data: users, loading },
+    addUser: { data: newUser },
+    removeUser: { data: removedUserID }
+  } = useSelector((state) => state.users)
 
   const dispatch = useDispatch();
   
@@ -17,9 +23,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(getUsers());
-  }, [ADD_USER.data, REMOVE_USER.data])
-
-  if (GET_USERS.data.length) window.electronAPI.writeLogs({ logsContent: JSON.stringify(GET_USERS.data), type: 'success' });
+  }, [removedUserID, newUser])
 
   return (
     <div className='users'>
@@ -31,8 +35,8 @@ const Users = () => {
       <List
         size="small"
         bordered
-        loading={GET_USERS.loading}
-        dataSource={GET_USERS.data}
+        loading={loading}
+        dataSource={users}
         renderItem={(item) => (
           <List.Item
             actions={[

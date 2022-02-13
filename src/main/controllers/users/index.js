@@ -1,13 +1,12 @@
 const mongoose = require('mongoose');
 const { ipcMain } = require('electron');
-const writeLogs = require('../../helpers/logs');
 
 const usersController = (mainWindow) => {
   ipcMain.handle('get-users', async function (_) {
     try {
       const db = mongoose.connection.db;
       const users = await db.collection('users').find({}).toArray();
-      writeLogs(JSON.stringify(users), 'success')
+
       mainWindow.webContents.send(
         'get-users-success', users.map((u) => ({ ...u, _id: u._id.toString()}))
       );
