@@ -4,20 +4,11 @@ const isDev = require('electron-is-dev')
 const { default: installExtension, REDUX_DEVTOOLS } = isDev ? require('electron-devtools-installer') : {};
 const { app, screen, BrowserWindow } = require('electron')
 const path = require('path')
-const initMongoose = require('./mongoose/init')
 const initControllers = require('./controllers')
-const writeLogs = require('./helpers/logs');
 
 require('@electron/remote/main').initialize()
 
-async function createWindow() {
-  try {
-    await initMongoose()
-  } catch (err) {
-    console.log(err)
-    writeLogs(err);
-  }
-
+function createWindow() {
   // Create a window that fills the screen's available work area.
   if (isDev) {
     installExtension(REDUX_DEVTOOLS)

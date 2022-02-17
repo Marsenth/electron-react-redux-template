@@ -1,13 +1,9 @@
-import BackupForm from '../components/Home/BackupForm';
-import '../assets/styles/containers/home.sass';
-import { Card } from 'antd';
+import Users from './Users';
 
-const Home = () => {
-  return (
-    <Card className="home" bordered={false}>
-      <BackupForm/>
-    </Card>
-  );
-}
+const Home = () => (
+  <div className='home'>
+    <Users/>
+  </div>
+)
 
-export default Home;
+export default Home

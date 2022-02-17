@@ -1,7 +1,10 @@
+import servers from './servers';
 import users from './users';
 
 export const groupedEndpoints = {
-  users  
+  // There will be one reducer by each key in this object.
+  users,
+  servers,
 };
 
 const endpoints = [];

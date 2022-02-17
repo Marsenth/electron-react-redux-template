@@ -11,10 +11,7 @@ const UserForm = () => {
   
   const dispatch = useDispatch();
 
-  const onFinish = (params) => {
-    console.log('onFinish', params);
-    dispatch(addUser(params))
-  };
+  const onFinish = (params) => dispatch(addUser(params));
 
   const onFinishFailed = () => null;
 

@@ -1,14 +1,11 @@
 import { Provider } from 'react-redux';
-import MainLayout from '../layouts/MainLayout';
-import Users from './Users';
+import AppRouter from '../router/index';
 import store from '../redux/store';
 
 const App = () => (
   <Provider store={store}>
-    <MainLayout>
-      <Users/>
-    </MainLayout>
+    <AppRouter/>
   </Provider>
-)
+);
 
 export default App
